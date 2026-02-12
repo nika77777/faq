@@ -14,14 +14,12 @@
       --base: 17px;
       --h1: 32px;
       --h2: 28px;
-      --h3: 24px;
       --w700: 700;
 
       /* Похоже на ваш сайт: тёмно-синий + золото */
       --navy-1:#071a33;
       --navy-2:#0b2a52;
       --gold:#b68b2a;
-      --gold-2:#9a7421;
 
       --text:#0b1220;
       --muted:#5b6778;
@@ -35,7 +33,6 @@
       --r-lg: 18px;
       --r-md: 14px;
 
-      /* Системный стек (как у вас) */
       --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
     }
 
@@ -47,7 +44,7 @@
       font-size: var(--base);
       color: var(--text);
       background: var(--bg);
-      line-height: 1.55;
+      line-height: 1.6;
     }
 
     .hero{
@@ -138,7 +135,6 @@
       color: var(--muted);
     }
 
-    /* FAQ list */
     .block{
       padding: 16px 18px 10px;
     }
@@ -190,18 +186,18 @@
     details.qa[open] .chev svg{ transform: rotate(180deg); }
 
     .qa-body{
-      padding: 0 14px 14px;
       border-top: 1px solid var(--border);
+      padding: 14px 14px 14px; /* ВАЖНО: добавили общий отступ, чтобы текст не лип к рамке */
     }
 
-    /* Форматирование ответов (абзацы/списки) */
+    /* Форматирование ответов */
     .answer, .more-body{
       font-size: var(--base);
       color: var(--text);
     }
 
     .answer p, .more-body p{
-      margin: 0 0 12px;
+      margin: 0 0 14px;
     }
 
     .answer p:last-child, .more-body p:last-child{
@@ -209,12 +205,19 @@
     }
 
     .answer ul, .more-body ul{
-      margin: 10px 0 12px 20px;
+      margin: 12px 0 14px 22px;
       padding: 0;
     }
 
     .answer li, .more-body li{
-      margin: 6px 0;
+      margin: 7px 0;
+    }
+
+    /* Визуальные "якоря внимания" (не меняют текст) */
+    .answer mark, .more-body mark{
+      background: rgba(182,139,42,0.18);
+      padding: 0 3px;
+      border-radius: 6px;
     }
 
     .answer strong.lead, .more-body strong.lead{
@@ -223,16 +226,17 @@
 
     /* Подробнее */
     .more-wrap{
-      margin-top: 12px;
+      margin-top: 14px;
       border: 1px dashed rgba(182,139,42,0.55);
       border-radius: 14px;
       background: rgba(182,139,42,0.06);
       overflow: hidden;
+      padding-top: 6px;
     }
 
     details.more summary{
       cursor: pointer;
-      padding: 12px 12px;
+      padding: 10px 12px 12px;
       user-select: none;
       display: inline-flex;
       align-items: center;
@@ -251,7 +255,6 @@
       display: inline-block;
     }
 
-    /* Внутренний отступ для текста "Подробнее" */
     .more-body{
       padding: 0 12px 12px;
     }
@@ -270,21 +273,8 @@
       color: #182235;
     }
 
-    /* Плавное появление второго уровня */
     .level2.is-hidden{
-      display: block;
-      max-height: 0;
-      opacity: 0;
-      overflow: hidden;
-      transition: max-height 240ms ease, opacity 240ms ease;
-    }
-
-    .level2.is-shown{
-      display: block;
-      max-height: 2000px;
-      opacity: 1;
-      overflow: hidden;
-      transition: max-height 320ms ease, opacity 220ms ease;
+      display: none;
     }
 
     .note{
@@ -441,16 +431,27 @@
       return span;
     }
 
-    function cleanAnswerText(raw){
-      let t = String(raw || "");
+    function cleanOddSymbols(t){
+      // Убираем "псевдо-иконки" и мусорные спецсимволы, которые иногда прилипают из PDF.
+      // Важно: не трогаем буквы/цифры/пунктуацию, только явные знаки форматирования.
+      return String(t || "")
+        .replace(/[▌▍▎▏■□▪▫●◦◆◇▶▷►▻◀◁◄◅★☆✦✧✱✳︎✴︎☰☷☵☳☲☱☰]/g, "")
+        .replace(/\uFFFC/g, "")  // object replacement character
+        .replace(/\u200B/g, "")  // zero width space
+        .replace(/\u2060/g, "")  // word joiner
+        .replace(/\u00A0/g, " "); // non-breaking space -> обычный пробел
+    }
 
-      /* Удаляем строки вида "Ответы на вопросы 16" */
+    function cleanAnswerText(raw){
+      let t = cleanOddSymbols(raw);
+
+      // Убираем строки вида "Ответы на вопросы 16"
       t = t.replace(/^\s*Ответы на вопросы\s+\d+\s*$/gmi, "");
 
-      /* Удаляем случайно попавшую строку "Второй уровень — углубление" */
+      // Убираем случайно попавшую строку "Второй уровень — углубление"
       t = t.replace(/^\s*Второй уровень\s*—\s*углубление\s*$/gmi, "");
 
-      /* Схлопываем лишние пустые строки */
+      // Схлопываем лишние пустые строки
       t = t.replace(/\n{3,}/g, "\n\n");
 
       return t.trim();
@@ -461,6 +462,29 @@
         .replaceAll("&","&amp;")
         .replaceAll("<","&lt;")
         .replaceAll(">","&gt;");
+    }
+
+    function applyFocusHighlights(plainText){
+      // Визуальные якоря без изменения слов: подсветим только очевидные маркеры.
+      // 1) "Первое/Второе/..." в тексте (не только в начале) — если встречается как отдельное слово
+      // 2) Пары "важно", "главный принцип", "первое —", "второе —" и т.п. не меняя смысл
+      let s = escapeHtml(plainText);
+
+      const patterns = [
+        /\bПервое\b/g,
+        /\bВторое\b/g,
+        /\bТретье\b/g,
+        /\bЧетвёртое\b/g,
+        /\bВажно\b/g,
+        /\bГлавный принцип\b/g,
+        /\bКлючевые принципы\b/g
+      ];
+
+      for(const p of patterns){
+        s = s.replace(p, (m) => `<mark>${m}</mark>`);
+      }
+
+      return s;
     }
 
     function renderAnswer(container, rawText){
@@ -487,28 +511,14 @@
           continue;
         }
 
-        let pText = lines.join(" ");
+        // обычный абзац (склеиваем переносы строк внутри блока)
+        const pText = lines.join(" ");
 
-        const m = pText.match(/^(Первое|Второе|Третье|Четвёртое)\b/);
-        if(m){
-          const lead = m[1];
-          const rest = pText.slice(lead.length);
-          const p = document.createElement("p");
-          p.innerHTML = `<strong class="lead">${escapeHtml(lead)}</strong>${escapeHtml(rest)}`;
-          container.appendChild(p);
-        } else {
-          const p = document.createElement("p");
-          p.textContent = pText;
-          container.appendChild(p);
-        }
+        const p = document.createElement("p");
+        // Локальная подсветка (mark) — визуально, без изменения слов
+        p.innerHTML = applyFocusHighlights(pText);
+        container.appendChild(p);
       }
-    }
-
-    function smoothScrollTo(el){
-      if(!el) return;
-      const rect = el.getBoundingClientRect();
-      const top = window.scrollY + rect.top - 110;
-      window.scrollTo({ top, behavior: "smooth" });
     }
 
     function makeQA(item){
@@ -516,7 +526,7 @@
       d.className = "qa";
 
       const s = document.createElement("summary");
-      s.appendChild(document.createTextNode(item.question));
+      s.appendChild(document.createTextNode(cleanOddSymbols(item.question)));
       s.appendChild(chevron());
       d.appendChild(s);
 
@@ -538,6 +548,7 @@
       level1List.innerHTML = "";
 
       const data = normalizeData().filter(x => x.category === sectionTitle);
+
       const l1_one = data.filter(x => x.g === "L1_ONE").sort(sortByQno);
       const l1_two = data.filter(x => x.g === "L1_TWO").sort(sortByQno);
       const l2 = data.filter(x => x.g === "L2").sort(sortByQno);
@@ -582,19 +593,11 @@
 
           body.appendChild(level2Wrap);
 
+          // УБРАЛИ автоскролл: просто показываем/скрываем второй уровень.
           more.addEventListener("toggle", () => {
             if(more.open){
               level2Wrap.classList.remove("is-hidden");
-              level2Wrap.classList.add("is-shown");
-
-              /* Даем браузеру применить layout, затем скроллим к заголовку */
-              requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                  smoothScrollTo(h4);
-                });
-              });
             } else {
-              level2Wrap.classList.remove("is-shown");
               level2Wrap.classList.add("is-hidden");
             }
           });
