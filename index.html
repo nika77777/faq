@@ -4,156 +4,153 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ответы на вопросы — Энергетический Тэттринг</title>
-  <meta name="description" content="Часто задаваемые вопросы об Энергетическом Тэттринге. Разделы и вопросы раскрываются как аккуратные секции с «Подробнее», без чата и без генерации новых смыслов." />
+  <meta name="description" content="Часто задаваемые вопросы об Энергетическом Тэттринге. Выберите раздел, откройте вопрос первого уровня, при необходимости раскройте «Подробнее» и получите доступ ко второму уровню." />
 
   <style>
-    :root {
+    :root{
       color-scheme: light;
 
-      /* Типографика под ваши настройки Kadence */
-      --base-font: 17px;
+      /* Kadence-логика из ваших настроек */
+      --base: 17px;
       --h1: 32px;
       --h2: 28px;
       --h3: 24px;
-      --w-bold: 700;
+      --w700: 700;
 
-      /* Палитра (общая логика: тёмно-синий + золото + нейтральные серые) */
-      --navy-1: #071a33;
-      --navy-2: #0b2a52;
+      /* Похоже на ваш сайт: тёмно-синий + золото */
+      --navy-1:#071a33;
+      --navy-2:#0b2a52;
+      --gold:#b68b2a;
+      --gold-2:#9a7421;
 
-      --gold: #b68b2a;
-      --gold-2: #9a7421;
+      --text:#0b1220;
+      --muted:#5b6778;
 
-      --text: #0b1220;
-      --muted: #5b6778;
-
-      --surface: #ffffff;
-      --surface-2: #f7f7f8;
+      --bg:#ffffff;
+      --surface:#ffffff;
+      --surface-2:#f7f7f8;
       --border: rgba(16, 24, 40, 0.12);
-
       --shadow: 0 12px 28px rgba(2, 6, 23, 0.12);
 
-      --r-lg: 20px;
+      --r-lg: 18px;
       --r-md: 14px;
 
-      /* Важно: шрифты наследуем от темы сайта, чтобы совпадало автоматически */
-      --font: inherit;
+      /* Системный стек как у вас */
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
     }
 
-    * { box-sizing: border-box; }
+    *{ box-sizing: border-box; }
 
-    body {
-      margin: 0;
+    body{
+      margin:0;
       font-family: var(--font);
-      font-size: var(--base-font);
+      font-size: var(--base);
       color: var(--text);
-      background: var(--surface);
+      background: var(--bg);
       line-height: 1.55;
     }
 
-    .wrap {
-      max-width: 980px;
+    .hero{
+      background: radial-gradient(1200px 600px at 20% 20%, rgba(255,255,255,0.08), transparent 55%),
+                  radial-gradient(800px 500px at 80% 10%, rgba(182,139,42,0.18), transparent 55%),
+                  linear-gradient(180deg, var(--navy-1), var(--navy-2));
+      color:#fff;
+      padding: 34px 16px 22px;
+    }
+
+    .wrap{
+      max-width: 1020px;
       margin: 0 auto;
       padding: 0 16px;
     }
 
-    .hero {
-      background: radial-gradient(1200px 600px at 20% 20%, rgba(255,255,255,0.08), transparent 55%),
-                  radial-gradient(800px 500px at 80% 10%, rgba(182,139,42,0.18), transparent 55%),
-                  linear-gradient(180deg, var(--navy-1), var(--navy-2));
-      color: #fff;
-      padding: 40px 0 30px;
-    }
-
-    .hero h1 {
-      margin: 0;
+    .hero h1{
+      margin:0;
       font-size: var(--h1);
-      font-weight: var(--w-bold);
+      font-weight: var(--w700);
       line-height: 1.1;
       letter-spacing: 0.2px;
     }
 
-    .hero p {
-      margin: 14px 0 0;
-      max-width: 860px;
+    .hero p{
+      margin: 12px 0 0;
+      max-width: 920px;
       color: rgba(255,255,255,0.88);
     }
 
-    .meta-row {
-      margin-top: 16px;
-      display: flex;
-      gap: 10px;
+    .content{
+      padding: 18px 16px 56px;
+    }
+
+    /* Tabs */
+    .tabs{
+      display:flex;
       flex-wrap: wrap;
+      gap: 10px;
+      margin: 0 0 14px;
     }
 
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      padding: 9px 12px;
+    .tab{
+      appearance:none;
+      border: 1px solid rgba(182,139,42,0.55);
+      background: #fff;
+      color: var(--text);
+      padding: 10px 12px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.10);
-      border: 1px solid rgba(255,255,255,0.16);
-      color: rgba(255,255,255,0.92);
-      font-size: 13px;
-      backdrop-filter: blur(6px);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: var(--w700);
+      line-height: 1.2;
+      transition: background 120ms ease, transform 20ms ease, border-color 120ms ease;
+    }
+    .tab:hover{ background: rgba(182,139,42,0.06); }
+    .tab:active{ transform: translateY(1px); }
+    .tab[aria-selected="true"]{
+      background: var(--gold);
+      border-color: var(--gold);
+      color: #fff;
     }
 
-    .content {
-      padding: 22px 0 54px;
-    }
-
-    .section {
-      margin: 18px 0 26px;
+    .panel{
+      border: 1px solid var(--border);
       border-radius: var(--r-lg);
       background: var(--surface);
-      border: 1px solid var(--border);
       box-shadow: var(--shadow);
       overflow: hidden;
     }
 
-    .section-head {
-      padding: 20px 18px 18px;
+    .panel-head{
+      padding: 18px 18px 14px;
       background: linear-gradient(180deg, #ffffff, #fbfbfc);
       border-bottom: 1px solid var(--border);
     }
 
-    .section-title {
+    .panel-title{
       margin: 0;
       font-size: var(--h2);
-      font-weight: var(--w-bold);
+      font-weight: var(--w700);
       line-height: 1.18;
     }
 
-    .section-sub {
+    .panel-sub{
       margin: 10px 0 0;
       color: var(--muted);
     }
 
-    .group {
-      padding: 16px 18px 6px;
+    /* FAQ list */
+    .block{
+      padding: 16px 18px 10px;
     }
 
-    .group-title {
+    .block h3{
       margin: 0 0 10px;
-      font-size: 14px;
-      font-weight: var(--w-bold);
+      font-size: 16px;
+      font-weight: var(--w700);
       color: #182235;
       letter-spacing: 0.2px;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
     }
 
-    .group-title::before {
-      content: "";
-      width: 10px;
-      height: 10px;
-      border-radius: 3px;
-      background: var(--gold);
-      box-shadow: 0 0 0 3px rgba(182,139,42,0.14);
-    }
-
-    details.qa {
+    details.qa{
       margin: 0 0 10px;
       border: 1px solid var(--border);
       border-radius: var(--r-md);
@@ -161,13 +158,13 @@
       overflow: hidden;
     }
 
-    details.qa summary {
+    details.qa summary{
       list-style: none;
       cursor: pointer;
       padding: 14px 14px;
       font-size: 18px;
+      font-weight: var(--w700);
       line-height: 1.25;
-      font-weight: var(--w-bold);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -175,9 +172,9 @@
       user-select: none;
     }
 
-    details.qa summary::-webkit-details-marker { display: none; }
+    details.qa summary::-webkit-details-marker{ display:none; }
 
-    .chev {
+    .chev{
       width: 30px;
       height: 30px;
       border-radius: 999px;
@@ -187,39 +184,22 @@
       background: var(--surface-2);
       flex: 0 0 auto;
     }
+    .chev svg{ transition: transform 160ms ease; }
+    details.qa[open] .chev svg{ transform: rotate(180deg); }
 
-    .chev svg { transition: transform 160ms ease; }
-
-    details.qa[open] .chev svg { transform: rotate(180deg); }
-
-    .qa-body {
+    .qa-body{
       padding: 0 14px 14px;
       border-top: 1px solid var(--border);
     }
 
-    .qa-meta {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin: 12px 0 12px;
-    }
-
-    .tag {
-      font-size: 12px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: #fff;
-      color: var(--muted);
-    }
-
-    .answer {
-      font-size: var(--base-font);
-      color: var(--text);
+    .answer{
       white-space: pre-wrap;
+      font-size: var(--base);
+      color: var(--text);
     }
 
-    .more-wrap {
+    /* Подробнее */
+    .more-wrap{
       margin-top: 12px;
       border: 1px dashed rgba(182,139,42,0.55);
       border-radius: 14px;
@@ -227,7 +207,7 @@
       overflow: hidden;
     }
 
-    details.more summary {
+    details.more summary{
       cursor: pointer;
       padding: 12px 12px;
       user-select: none;
@@ -235,49 +215,59 @@
       align-items: center;
       gap: 10px;
     }
-
-    details.more summary::-webkit-details-marker { display: none; }
-
-    /* «Подробнее» как привычная кнопка */
-    details.more summary::before {
+    details.more summary::-webkit-details-marker{ display:none; }
+    details.more summary::before{
       content: "Подробнее";
       background: var(--gold);
       color: #fff;
-      font-weight: var(--w-bold);
+      font-weight: var(--w700);
       padding: 8px 12px;
       border-radius: 12px;
       display: inline-block;
     }
 
-    .more-body {
+    .more-body{
       padding: 0 12px 12px;
       white-space: pre-wrap;
-      font-size: var(--base-font);
+      font-size: var(--base);
       color: var(--text);
     }
 
-    .footer-note {
-      margin-top: 22px;
+    /* Второй уровень: появляется только внутри раскрытого двухуровневого вопроса */
+    .level2{
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(16,24,40,0.10);
+    }
+    .level2 h4{
+      margin: 0 0 10px;
+      font-size: 15px;
+      font-weight: var(--w700);
+      color: #182235;
+    }
+
+    /* Без «лишних слов»: никаких номеров/источников/ярлыков */
+    .note{
+      margin-top: 20px;
       padding: 18px 18px;
       border-radius: var(--r-lg);
       border: 1px solid var(--border);
       background: #fff;
       box-shadow: var(--shadow);
     }
-
-    .footer-note h2 {
+    .note h2{
       margin: 0;
       font-size: 18px;
-      font-weight: var(--w-bold);
+      font-weight: var(--w700);
     }
-
-    .footer-note p {
+    .note p{
       margin: 10px 0 0;
       color: var(--muted);
     }
 
-    @media (max-width: 520px) {
-      details.qa summary { font-size: 17px; }
+    @media (max-width: 520px){
+      details.qa summary{ font-size: 17px; }
+      .tab{ width: 100%; text-align: left; }
     }
   </style>
 </head>
@@ -286,19 +276,27 @@
   <header class="hero">
     <div class="wrap">
       <h1>Ответы на вопросы</h1>
-      <p>Это самые частые вопросы, которые задают люди, когда знакомятся с Энергетическим Тэттрингом. Здесь нет чата и нет «ассистента»: вы просто раскрываете нужный вопрос и читаете точный фрагмент справочника. Там, где в тексте есть «Подробнее», оно раскрывается отдельной кнопкой.</p>
-      <div class="meta-row">
-        <span class="pill" id="metaCount">Данные: загрузка…</span>
-        <span class="pill">Формат: спокойная навигация по разделам</span>
-      </div>
+      <p>Это вопросы, которые чаще всего возникают при знакомстве с Энергетическим Тэттрингом. Выберите раздел, откройте вопрос первого уровня, а если у вопроса есть «Подробнее», вы увидите углубление и список вопросов второго уровня.</p>
     </div>
   </header>
 
   <main class="content">
-    <div class="wrap" id="app"></div>
-
     <div class="wrap">
-      <section class="footer-note">
+      <div class="tabs" id="tabs" role="tablist" aria-label="Разделы"></div>
+
+      <section class="panel" aria-live="polite">
+        <div class="panel-head">
+          <h2 class="panel-title" id="panelTitle"></h2>
+          <p class="panel-sub" id="panelSub"></p>
+        </div>
+
+        <div class="block" id="level1Block">
+          <h3>Часто задаваемые вопросы</h3>
+          <div id="level1List"></div>
+        </div>
+      </section>
+
+      <section class="note">
         <h2>Границы и безопасность</h2>
         <p>Этот справочник не заменяет врача или психотерапию и не предназначен для кризисных ситуаций. Если вам плохо, тревожно, нестабильно, нарушается сон, нарастает страх или теряется контакт с реальностью, остановите любые практики и обратитесь за профессиональной помощью.</p>
       </section>
@@ -309,7 +307,7 @@
     "use strict";
     import { FAQ } from "./faq-data.js";
 
-    const SECTION_ORDER = [
+    const SECTIONS = [
       "Что это за система и можно ли ей доверять",
       "Безопасность, границы и когда становится хуже",
       "Как это устроено на практике",
@@ -318,195 +316,199 @@
       "Для профессионалов и тех, кто уже многое пробовал"
     ];
 
-    const GROUP_ORDER = [
-      "Первый уровень — один ответ",
-      "Вопросы с двумя уровнями ответа",
-      "Первый уровень — два уровня ответа",
-      "Второй уровень — углубление"
-    ];
+    const panelTitle = document.getElementById("panelTitle");
+    const panelSub = document.getElementById("panelSub");
+    const tabs = document.getElementById("tabs");
+    const level1List = document.getElementById("level1List");
 
-    const app = document.getElementById("app");
-    const metaCount = document.getElementById("metaCount");
-
-    metaCount.textContent = `Данные: ${FAQ.length} вопросов`;
-
-    function sectionIntro(title) {
+    function sectionIntro(title){
       const map = {
-        "Что это за система и можно ли ей доверять": "Про ядро, границы, доверие, деньги и прозрачность. Этот раздел обычно читают первым, чтобы «понять, с чем мы имеем дело».",
-        "Безопасность, границы и когда становится хуже": "Про риски, перегруз, противопоказания и протоколы паузы. Это про экологичность и сохранение опоры.",
-        "Как это устроено на практике": "Про форматы участия, личные границы, выборочность и то, как устроены пауза, выход и возврат.",
-        "Что это даёт и чего не стоит ожидать": "Про ожидания, реальные изменения, сроки и критерии «это работает» без обещаний чудес.",
-        "Необычный опыт, инсайты и рациональный взгляд": "Про инсайты, символический язык, трезвость и то, как удерживать глубину без мистификации и без обесценивания.",
-        "Для профессионалов и тех, кто уже многое пробовал": "Про этику, позиционирование, риски и корректную интеграцию в практику без размывания границ ответственности."
+        "Что это за система и можно ли ей доверять": "Про ядро, границы, доверие, деньги и прозрачность.",
+        "Безопасность, границы и когда становится хуже": "Про риски, перегруз, противопоказания и протоколы паузы.",
+        "Как это устроено на практике": "Про форматы участия, выборочность, данные и выход/возврат.",
+        "Что это даёт и чего не стоит ожидать": "Про ожидания, реальные изменения и критерии «это работает».",
+        "Необычный опыт, инсайты и рациональный взгляд": "Про инсайты, символический язык и трезвость без мистификации.",
+        "Для профессионалов и тех, кто уже многое пробовал": "Про этику, позиционирование, риски и интеграцию в практику."
       };
       return map[title] || "";
     }
 
-    function parseQuestionNo(sourceHint) {
+    function parseQno(sourceHint){
       const m = String(sourceHint || "").match(/вопрос:\s*(\d+)/i);
       return m ? Number(m[1]) : null;
     }
 
-    function computeGroup(category, qno) {
+    function groupFor(category, qno){
       const sec = category;
 
       if (sec === "Что это за система и можно ли ей доверять") {
-        if (qno >= 1 && qno <= 3) return "Первый уровень — один ответ";
-        if (qno >= 4 && qno <= 8) return "Вопросы с двумя уровнями ответа";
-        if (qno >= 9 && qno <= 13) return "Второй уровень — углубление";
+        if (qno >= 1 && qno <= 3) return "L1_ONE";
+        if (qno >= 4 && qno <= 8) return "L1_TWO";
+        if (qno >= 9 && qno <= 13) return "L2";
       }
 
       if (sec === "Безопасность, границы и когда становится хуже") {
-        if (qno >= 1 && qno <= 3) return "Первый уровень — один ответ";
-        if (qno >= 4 && qno <= 9) return "Первый уровень — два уровня ответа";
-        if (qno >= 10 && qno <= 14) return "Второй уровень — углубление";
+        if (qno >= 1 && qno <= 3) return "L1_ONE";
+        if (qno >= 4 && qno <= 9) return "L1_TWO";
+        if (qno >= 10 && qno <= 14) return "L2";
       }
 
       if (sec === "Как это устроено на практике") {
-        if (qno >= 1 && qno <= 5) return "Первый уровень — один ответ";
-        if (qno >= 6 && qno <= 7) return "Первый уровень — два уровня ответа";
-        if (qno >= 8 && qno <= 11) return "Второй уровень — углубление";
+        if (qno >= 1 && qno <= 5) return "L1_ONE";
+        if (qno >= 6 && qno <= 7) return "L1_TWO";
+        if (qno >= 8 && qno <= 11) return "L2";
       }
 
       if (sec === "Что это даёт и чего не стоит ожидать") {
-        if (qno >= 1 && qno <= 4) return "Первый уровень — один ответ";
-        if (qno >= 5 && qno <= 8) return "Первый уровень — два уровня ответа";
-        if (qno >= 9 && qno <= 13) return "Второй уровень — углубление";
+        if (qno >= 1 && qno <= 4) return "L1_ONE";
+        if (qno >= 5 && qno <= 8) return "L1_TWO";
+        if (qno >= 9 && qno <= 13) return "L2";
       }
 
       if (sec === "Необычный опыт, инсайты и рациональный взгляд") {
-        if (qno >= 1 && qno <= 4) return "Первый уровень — один ответ";
-        if (qno >= 5 && qno <= 7) return "Первый уровень — два уровня ответа";
-        if (qno >= 8 && qno <= 12) return "Второй уровень — углубление";
+        if (qno >= 1 && qno <= 4) return "L1_ONE";
+        if (qno >= 5 && qno <= 7) return "L1_TWO";
+        if (qno >= 8 && qno <= 12) return "L2";
       }
 
       if (sec === "Для профессионалов и тех, кто уже многое пробовал") {
-        if (qno >= 1 && qno <= 5) return "Первый уровень — один ответ";
-        if (qno >= 6 && qno <= 11) return "Первый уровень — два уровня ответа";
-        if (qno >= 12 && qno <= 16) return "Второй уровень — углубление";
+        if (qno >= 1 && qno <= 5) return "L1_ONE";
+        if (qno >= 6 && qno <= 11) return "L1_TWO";
+        if (qno >= 12 && qno <= 16) return "L2";
       }
 
-      return "—";
+      return "UNK";
     }
 
-    function groupBy(arr, keyFn) {
-      const m = new Map();
-      for (const x of arr) {
-        const k = keyFn(x);
-        if (!m.has(k)) m.set(k, []);
-        m.get(k).push(x);
-      }
-      return m;
+    function normalizeData(){
+      return FAQ.map((x, idx) => {
+        const qno = parseQno(x.source_hint);
+        const g = groupFor(x.category, qno);
+        return { ...x, qno, g, order: idx + 1 };
+      });
     }
 
-    function el(tag, attrs = {}, children = []) {
-      const node = document.createElement(tag);
-      for (const [k, v] of Object.entries(attrs)) {
-        if (k === "class") node.className = v;
-        else if (k === "text") node.textContent = v;
-        else node.setAttribute(k, v);
-      }
-      for (const ch of children) node.appendChild(ch);
-      return node;
+    function sortByQno(a,b){
+      return (a.qno ?? 1e9) - (b.qno ?? 1e9);
     }
 
-    function svgChevron() {
+    function chevron(){
       const span = document.createElement("span");
       span.className = "chev";
       span.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
       return span;
     }
 
-    function normalizeData() {
-      return FAQ.map((x, idx) => {
-        const qno = parseQuestionNo(x.source_hint);
-        const group = computeGroup(x.category, qno);
-        return {
-          ...x,
-          questionNo: qno,
-          group,
-          displayOrder: idx + 1
-        };
-      });
+    function makeQA(item){
+      const d = document.createElement("details");
+      d.className = "qa";
+
+      const s = document.createElement("summary");
+      s.appendChild(document.createTextNode(item.question));
+      s.appendChild(chevron());
+      d.appendChild(s);
+
+      const body = document.createElement("div");
+      body.className = "qa-body";
+
+      const ans = document.createElement("div");
+      ans.className = "answer";
+      ans.textContent = item.answer_main || "";
+      body.appendChild(ans);
+
+      d.appendChild(body);
+      return { d, body };
     }
 
-    function render() {
-      app.innerHTML = "";
+    function renderSection(sectionTitle){
+      panelTitle.textContent = sectionTitle;
+      panelSub.textContent = sectionIntro(sectionTitle);
 
-      const data = normalizeData();
-      const bySection = groupBy(data, x => x.category);
+      level1List.innerHTML = "";
 
-      for (const sectionTitle of SECTION_ORDER) {
-        const items = (bySection.get(sectionTitle) || []).slice();
-        if (!items.length) continue;
+      const data = normalizeData().filter(x => x.category === sectionTitle);
+      const l1_one = data.filter(x => x.g === "L1_ONE").sort(sortByQno);
+      const l1_two = data.filter(x => x.g === "L1_TWO").sort(sortByQno);
+      const l2 = data.filter(x => x.g === "L2").sort(sortByQno);
 
-        items.sort((a, b) => (a.questionNo ?? 1e9) - (b.questionNo ?? 1e9));
+      const allL1 = [...l1_one, ...l1_two].sort(sortByQno);
 
-        const section = el("section", { class: "section" });
+      for(const item of allL1){
+        const { d, body } = makeQA(item);
 
-        const head = el("div", { class: "section-head" }, [
-          el("h2", { class: "section-title", text: sectionTitle }),
-          el("p", { class: "section-sub", text: sectionIntro(sectionTitle) })
-        ]);
+        const hasMore = item.answer_more && String(item.answer_more).trim().length > 0;
 
-        section.appendChild(head);
+        if(hasMore){
+          const moreWrap = document.createElement("div");
+          moreWrap.className = "more-wrap";
 
-        const byGroup = groupBy(items, x => x.group || "—");
+          const more = document.createElement("details");
+          more.className = "more";
 
-        for (const gTitle of GROUP_ORDER) {
-          const gItems = (byGroup.get(gTitle) || []).slice();
-          if (!gItems.length) continue;
+          const ms = document.createElement("summary");
+          ms.appendChild(document.createTextNode(" "));
+          more.appendChild(ms);
 
-          gItems.sort((a, b) => (a.questionNo ?? 1e9) - (b.questionNo ?? 1e9));
+          const mb = document.createElement("div");
+          mb.className = "more-body";
+          mb.textContent = item.answer_more;
+          more.appendChild(mb);
 
-          const group = el("div", { class: "group" });
-          group.appendChild(el("div", { class: "group-title", text: gTitle }));
+          moreWrap.appendChild(more);
+          body.appendChild(moreWrap);
 
-          for (const it of gItems) {
-            const d = document.createElement("details");
-            d.className = "qa";
+          const level2Wrap = document.createElement("div");
+          level2Wrap.className = "level2";
+          level2Wrap.style.display = "none";
 
-            const sum = document.createElement("summary");
-            sum.appendChild(document.createTextNode(it.question));
-            sum.appendChild(svgChevron());
-            d.appendChild(sum);
+          const h4 = document.createElement("h4");
+          h4.textContent = "Вопросы для углубления";
+          level2Wrap.appendChild(h4);
 
-            const body = el("div", { class: "qa-body" });
-
-            const meta = el("div", { class: "qa-meta" }, [
-              el("span", { class: "tag", text: it.questionNo ? `Вопрос ${it.questionNo}` : "Вопрос" }),
-              el("span", { class: "tag", text: it.source_hint || "Источник: «Ответы на вопросы»" })
-            ]);
-            body.appendChild(meta);
-
-            body.appendChild(el("div", { class: "answer", text: it.answer_main }));
-
-            if (it.answer_more && String(it.answer_more).trim().length) {
-              const moreWrap = el("div", { class: "more-wrap" });
-              const more = document.createElement("details");
-              more.className = "more";
-
-              const ms = document.createElement("summary");
-              ms.appendChild(document.createTextNode(" "));
-              more.appendChild(ms);
-
-              more.appendChild(el("div", { class: "more-body", text: it.answer_more }));
-              moreWrap.appendChild(more);
-              body.appendChild(moreWrap);
-            }
-
-            d.appendChild(body);
-            group.appendChild(d);
+          for(const q of l2){
+            const qNode = makeQA(q).d;
+            level2Wrap.appendChild(qNode);
           }
 
-          section.appendChild(group);
+          body.appendChild(level2Wrap);
+
+          more.addEventListener("toggle", () => {
+            level2Wrap.style.display = more.open ? "block" : "none";
+          });
         }
 
-        app.appendChild(section);
+        level1List.appendChild(d);
       }
     }
 
-    render();
+    function renderTabs(){
+      tabs.innerHTML = "";
+      for(const title of SECTIONS){
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "tab";
+        btn.setAttribute("role", "tab");
+        btn.setAttribute("aria-selected", "false");
+        btn.textContent = title;
+        btn.addEventListener("click", () => {
+          for(const b of tabs.querySelectorAll(".tab")){
+            b.setAttribute("aria-selected", "false");
+          }
+          btn.setAttribute("aria-selected", "true");
+          renderSection(title);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+        tabs.appendChild(btn);
+      }
+
+      const first = tabs.querySelector(".tab");
+      if(first){
+        first.setAttribute("aria-selected", "true");
+        renderSection(first.textContent);
+      }
+    }
+
+    renderTabs();
   </script>
 </body>
 </html>
