@@ -35,7 +35,7 @@
       --r-lg: 18px;
       --r-md: 14px;
 
-      /* Системный стек как у вас */
+      /* Системный стек (как у вас) */
       --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
     }
 
@@ -103,6 +103,7 @@
       line-height: 1.2;
       transition: background 120ms ease, transform 20ms ease, border-color 120ms ease;
     }
+
     .tab:hover{ background: rgba(182,139,42,0.06); }
     .tab:active{ transform: translateY(1px); }
     .tab[aria-selected="true"]{
@@ -184,6 +185,7 @@
       background: var(--surface-2);
       flex: 0 0 auto;
     }
+
     .chev svg{ transition: transform 160ms ease; }
     details.qa[open] .chev svg{ transform: rotate(180deg); }
 
@@ -192,10 +194,31 @@
       border-top: 1px solid var(--border);
     }
 
-    .answer{
-      white-space: pre-wrap;
+    /* Форматирование ответов (абзацы/списки) */
+    .answer, .more-body{
       font-size: var(--base);
       color: var(--text);
+    }
+
+    .answer p, .more-body p{
+      margin: 0 0 12px;
+    }
+
+    .answer p:last-child, .more-body p:last-child{
+      margin-bottom: 0;
+    }
+
+    .answer ul, .more-body ul{
+      margin: 10px 0 12px 20px;
+      padding: 0;
+    }
+
+    .answer li, .more-body li{
+      margin: 6px 0;
+    }
+
+    .answer strong.lead, .more-body strong.lead{
+      font-weight: var(--w700);
     }
 
     /* Подробнее */
@@ -215,7 +238,9 @@
       align-items: center;
       gap: 10px;
     }
+
     details.more summary::-webkit-details-marker{ display:none; }
+
     details.more summary::before{
       content: "Подробнее";
       background: var(--gold);
@@ -226,19 +251,18 @@
       display: inline-block;
     }
 
+    /* Внутренний отступ для текста "Подробнее" */
     .more-body{
       padding: 0 12px 12px;
-      white-space: pre-wrap;
-      font-size: var(--base);
-      color: var(--text);
     }
 
-    /* Второй уровень: появляется только внутри раскрытого двухуровневого вопроса */
+    /* Второй уровень: появляется только после раскрытия "Подробнее" */
     .level2{
       margin-top: 14px;
       padding-top: 12px;
       border-top: 1px solid rgba(16,24,40,0.10);
     }
+
     .level2 h4{
       margin: 0 0 10px;
       font-size: 15px;
@@ -246,7 +270,23 @@
       color: #182235;
     }
 
-    /* Без «лишних слов»: никаких номеров/источников/ярлыков */
+    /* Плавное появление второго уровня */
+    .level2.is-hidden{
+      display: block;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 240ms ease, opacity 240ms ease;
+    }
+
+    .level2.is-shown{
+      display: block;
+      max-height: 2000px;
+      opacity: 1;
+      overflow: hidden;
+      transition: max-height 320ms ease, opacity 220ms ease;
+    }
+
     .note{
       margin-top: 20px;
       padding: 18px 18px;
@@ -255,11 +295,13 @@
       background: #fff;
       box-shadow: var(--shadow);
     }
+
     .note h2{
       margin: 0;
       font-size: 18px;
       font-weight: var(--w700);
     }
+
     .note p{
       margin: 10px 0 0;
       color: var(--muted);
@@ -290,7 +332,7 @@
           <p class="panel-sub" id="panelSub"></p>
         </div>
 
-        <div class="block" id="level1Block">
+        <div class="block">
           <h3>Часто задаваемые вопросы</h3>
           <div id="level1List"></div>
         </div>
@@ -399,6 +441,76 @@
       return span;
     }
 
+    function cleanAnswerText(raw){
+      let t = String(raw || "");
+
+      /* Удаляем строки вида "Ответы на вопросы 16" */
+      t = t.replace(/^\s*Ответы на вопросы\s+\d+\s*$/gmi, "");
+
+      /* Удаляем случайно попавшую строку "Второй уровень — углубление" */
+      t = t.replace(/^\s*Второй уровень\s*—\s*углубление\s*$/gmi, "");
+
+      /* Схлопываем лишние пустые строки */
+      t = t.replace(/\n{3,}/g, "\n\n");
+
+      return t.trim();
+    }
+
+    function escapeHtml(s){
+      return String(s)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;");
+    }
+
+    function renderAnswer(container, rawText){
+      const text = cleanAnswerText(rawText);
+      container.innerHTML = "";
+      if(!text){
+        return;
+      }
+
+      const blocks = text.split(/\n\s*\n/).map(x => x.trim()).filter(Boolean);
+
+      for(const block of blocks){
+        const lines = block.split("\n").map(x => x.trim()).filter(Boolean);
+        const isList = lines.length >= 2 && lines.every(l => /^([—\-•])\s+/.test(l));
+
+        if(isList){
+          const ul = document.createElement("ul");
+          for(const l of lines){
+            const li = document.createElement("li");
+            li.textContent = l.replace(/^([—\-•])\s+/, "");
+            ul.appendChild(li);
+          }
+          container.appendChild(ul);
+          continue;
+        }
+
+        let pText = lines.join(" ");
+
+        const m = pText.match(/^(Первое|Второе|Третье|Четвёртое)\b/);
+        if(m){
+          const lead = m[1];
+          const rest = pText.slice(lead.length);
+          const p = document.createElement("p");
+          p.innerHTML = `<strong class="lead">${escapeHtml(lead)}</strong>${escapeHtml(rest)}`;
+          container.appendChild(p);
+        } else {
+          const p = document.createElement("p");
+          p.textContent = pText;
+          container.appendChild(p);
+        }
+      }
+    }
+
+    function smoothScrollTo(el){
+      if(!el) return;
+      const rect = el.getBoundingClientRect();
+      const top = window.scrollY + rect.top - 110;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+
     function makeQA(item){
       const d = document.createElement("details");
       d.className = "qa";
@@ -413,7 +525,7 @@
 
       const ans = document.createElement("div");
       ans.className = "answer";
-      ans.textContent = item.answer_main || "";
+      renderAnswer(ans, item.answer_main || "");
       body.appendChild(ans);
 
       d.appendChild(body);
@@ -423,7 +535,6 @@
     function renderSection(sectionTitle){
       panelTitle.textContent = sectionTitle;
       panelSub.textContent = sectionIntro(sectionTitle);
-
       level1List.innerHTML = "";
 
       const data = normalizeData().filter(x => x.category === sectionTitle);
@@ -451,15 +562,14 @@
 
           const mb = document.createElement("div");
           mb.className = "more-body";
-          mb.textContent = item.answer_more;
+          renderAnswer(mb, item.answer_more || "");
           more.appendChild(mb);
 
           moreWrap.appendChild(more);
           body.appendChild(moreWrap);
 
           const level2Wrap = document.createElement("div");
-          level2Wrap.className = "level2";
-          level2Wrap.style.display = "none";
+          level2Wrap.className = "level2 is-hidden";
 
           const h4 = document.createElement("h4");
           h4.textContent = "Вопросы для углубления";
@@ -473,7 +583,20 @@
           body.appendChild(level2Wrap);
 
           more.addEventListener("toggle", () => {
-            level2Wrap.style.display = more.open ? "block" : "none";
+            if(more.open){
+              level2Wrap.classList.remove("is-hidden");
+              level2Wrap.classList.add("is-shown");
+
+              /* Даем браузеру применить layout, затем скроллим к заголовку */
+              requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                  smoothScrollTo(h4);
+                });
+              });
+            } else {
+              level2Wrap.classList.remove("is-shown");
+              level2Wrap.classList.add("is-hidden");
+            }
           });
         }
 
@@ -483,6 +606,7 @@
 
     function renderTabs(){
       tabs.innerHTML = "";
+
       for(const title of SECTIONS){
         const btn = document.createElement("button");
         btn.type = "button";
@@ -490,6 +614,7 @@
         btn.setAttribute("role", "tab");
         btn.setAttribute("aria-selected", "false");
         btn.textContent = title;
+
         btn.addEventListener("click", () => {
           for(const b of tabs.querySelectorAll(".tab")){
             b.setAttribute("aria-selected", "false");
@@ -498,6 +623,7 @@
           renderSection(title);
           window.scrollTo({ top: 0, behavior: "smooth" });
         });
+
         tabs.appendChild(btn);
       }
 
