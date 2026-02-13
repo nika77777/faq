@@ -1,4 +1,4 @@
-/* Cleaned FAQ dataset (no extraneous headers/markers). */
+/* Cleaned FAQ dataset v3 (trailing section/level tails stripped ONLY in 6 last L2 items). */
 export const FAQ = [
   {
     "id": "01_01",
