@@ -4,19 +4,17 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ответы на вопросы — Энергетический Тэттринг</title>
-  <meta name="description" content="Часто задаваемые вопросы об Энергетическом Тэттринге. Выберите раздел, откройте вопрос первого уровня, при необходимости раскройте «Подробнее» и получите доступ ко второму уровню." />
+  <meta name="description" content="Часто задаваемые вопросы об Энергетическом Тэттрингe. Выберите раздел, откройте вопрос первого уровня, при необходимости раскройте «Подробнее» — и получите доступ к углубляющим вопросам раздела." />
 
   <style>
     :root{
       color-scheme: light;
 
-      /* Kadence-логика из ваших настроек */
       --base: 17px;
       --h1: 32px;
       --h2: 28px;
       --w700: 700;
 
-      /* Похоже на ваш сайт: тёмно-синий + золото */
       --navy-1:#071a33;
       --navy-2:#0b2a52;
       --gold:#b68b2a;
@@ -79,12 +77,16 @@
       padding: 18px 16px 56px;
     }
 
-    /* Tabs */
+    /* Сетка табов-карточек */
     .tabs{
-      display:flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
       margin: 0 0 14px;
+    }
+
+    @media (max-width: 720px){
+      .tabs{ grid-template-columns: 1fr; }
     }
 
     .tab{
@@ -92,21 +94,36 @@
       border: 1px solid rgba(182,139,42,0.55);
       background: #fff;
       color: var(--text);
-      padding: 10px 12px;
-      border-radius: 999px;
+      padding: 14px 14px;
+      border-radius: 14px;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 15px;
       font-weight: var(--w700);
-      line-height: 1.2;
-      transition: background 120ms ease, transform 20ms ease, border-color 120ms ease;
+      line-height: 1.25;
+      text-align: left;
+      box-shadow: 0 10px 20px rgba(2,6,23,0.06);
+      transition: background 120ms ease, transform 20ms ease, border-color 120ms ease, box-shadow 120ms ease;
     }
 
-    .tab:hover{ background: rgba(182,139,42,0.06); }
+    .tab:hover{
+      background: rgba(182,139,42,0.06);
+      box-shadow: 0 12px 24px rgba(2,6,23,0.10);
+    }
+
     .tab:active{ transform: translateY(1px); }
+
     .tab[aria-selected="true"]{
       background: var(--gold);
       border-color: var(--gold);
       color: #fff;
+    }
+
+    .tab .mini{
+      display:block;
+      font-weight: 500;
+      opacity: 0.85;
+      margin-top: 6px;
+      font-size: 13px;
     }
 
     .panel{
@@ -187,44 +204,28 @@
 
     .qa-body{
       border-top: 1px solid var(--border);
-      padding: 14px 14px 14px; /* ВАЖНО: добавили общий отступ, чтобы текст не лип к рамке */
+      padding: 18px 20px 20px;
     }
 
-    /* Форматирование ответов */
     .answer, .more-body{
       font-size: var(--base);
       color: var(--text);
+      max-width: 760px;
+      line-height: 1.72;
     }
 
-    .answer p, .more-body p{
-      margin: 0 0 14px;
-    }
+    .answer p, .more-body p{ margin: 0 0 14px; }
+    .answer p:last-child, .more-body p:last-child{ margin-bottom: 0; }
 
-    .answer p:last-child, .more-body p:last-child{
-      margin-bottom: 0;
-    }
+    .answer ul, .more-body ul{ margin: 12px 0 14px 22px; padding: 0; }
+    .answer li, .more-body li{ margin: 7px 0; }
 
-    .answer ul, .more-body ul{
-      margin: 12px 0 14px 22px;
-      padding: 0;
-    }
-
-    .answer li, .more-body li{
-      margin: 7px 0;
-    }
-
-    /* Визуальные "якоря внимания" (не меняют текст) */
     .answer mark, .more-body mark{
       background: rgba(182,139,42,0.18);
       padding: 0 3px;
       border-radius: 6px;
     }
 
-    .answer strong.lead, .more-body strong.lead{
-      font-weight: var(--w700);
-    }
-
-    /* Подробнее */
     .more-wrap{
       margin-top: 14px;
       border: 1px dashed rgba(182,139,42,0.55);
@@ -255,27 +256,34 @@
       display: inline-block;
     }
 
-    .more-body{
-      padding: 0 12px 12px;
+    .more-body{ padding: 0 12px 12px; }
+
+    /* Второй уровень — отдельный блок в конце раздела */
+    .level2-block{
+      margin: 16px 0 6px;
+      padding: 16px 16px 6px;
+      border-radius: 16px;
+      background: rgba(74, 108, 255, 0.07);
+      border: 1px solid rgba(74, 108, 255, 0.22);
     }
 
-    /* Второй уровень: появляется только после раскрытия "Подробнее" */
-    .level2{
-      margin-top: 14px;
-      padding-top: 12px;
-      border-top: 1px solid rgba(16,24,40,0.10);
-    }
-
-    .level2 h4{
+    .level2-block h4{
       margin: 0 0 10px;
       font-size: 15px;
       font-weight: var(--w700);
       color: #182235;
     }
 
-    .level2.is-hidden{
-      display: none;
+    details.qa.level2-qa{
+      background: rgba(255,255,255,0.96);
+      border-color: rgba(74, 108, 255, 0.24);
     }
+
+    details.qa.level2-qa summary{
+      font-size: 16.5px;
+    }
+
+    .hidden{ display:none; }
 
     .note{
       margin-top: 20px;
@@ -286,21 +294,8 @@
       box-shadow: var(--shadow);
     }
 
-    .note h2{
-      margin: 0;
-      font-size: 18px;
-      font-weight: var(--w700);
-    }
-
-    .note p{
-      margin: 10px 0 0;
-      color: var(--muted);
-    }
-
-    @media (max-width: 520px){
-      details.qa summary{ font-size: 17px; }
-      .tab{ width: 100%; text-align: left; }
-    }
+    .note h2{ margin: 0; font-size: 18px; font-weight: var(--w700); }
+    .note p{ margin: 10px 0 0; color: var(--muted); }
   </style>
 </head>
 
@@ -308,7 +303,7 @@
   <header class="hero">
     <div class="wrap">
       <h1>Ответы на вопросы</h1>
-      <p>Это вопросы, которые чаще всего возникают при знакомстве с Энергетическим Тэттрингом. Выберите раздел, откройте вопрос первого уровня, а если у вопроса есть «Подробнее», вы увидите углубление и список вопросов второго уровня.</p>
+      <p>Это вопросы, которые чаще всего возникают при знакомстве с Энергетическим Тэттрингом. Выберите раздел, откройте вопрос первого уровня, а затем при необходимости раскройте «Подробнее» — и вы получите доступ к углубляющим вопросам раздела.</p>
     </div>
   </header>
 
@@ -318,13 +313,18 @@
 
       <section class="panel" aria-live="polite">
         <div class="panel-head">
-          <h2 class="panel-title" id="panelTitle"></h2>
-          <p class="panel-sub" id="panelSub"></p>
+          <h2 class="panel-title" id="panelTitle">Выберите раздел</h2>
+          <p class="panel-sub" id="panelSub">После выбора раздела появятся вопросы первого уровня. Углубляющие вопросы станут доступны после открытия «Подробнее».</p>
         </div>
 
         <div class="block">
-          <h3>Часто задаваемые вопросы</h3>
+          <h3 id="level1Title">Вопросы</h3>
           <div id="level1List"></div>
+
+          <div id="level2Block" class="level2-block hidden">
+            <h4>Углубляющие вопросы раздела</h4>
+            <div id="level2List"></div>
+          </div>
         </div>
       </section>
 
@@ -351,7 +351,13 @@
     const panelTitle = document.getElementById("panelTitle");
     const panelSub = document.getElementById("panelSub");
     const tabs = document.getElementById("tabs");
+    const level1Title = document.getElementById("level1Title");
     const level1List = document.getElementById("level1List");
+    const level2Block = document.getElementById("level2Block");
+    const level2List = document.getElementById("level2List");
+
+    let currentSection = null;
+    let level2Unlocked = false;
 
     function sectionIntro(title){
       const map = {
@@ -424,75 +430,48 @@
       return (a.qno ?? 1e9) - (b.qno ?? 1e9);
     }
 
-    function chevron(){
-      const span = document.createElement("span");
-      span.className = "chev";
-      span.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-      return span;
-    }
-
     function cleanOddSymbols(t){
-      // Убираем "псевдо-иконки" и мусорные спецсимволы, которые иногда прилипают из PDF.
-      // Важно: не трогаем буквы/цифры/пунктуацию, только явные знаки форматирования.
       return String(t || "")
-        .replace(/[▌▍▎▏■□▪▫●◦◆◇▶▷►▻◀◁◄◅★☆✦✧✱✳︎✴︎☰☷☵☳☲☱☰]/g, "")
-        .replace(/\uFFFC/g, "")  // object replacement character
-        .replace(/\u200B/g, "")  // zero width space
-        .replace(/\u2060/g, "")  // word joiner
-        .replace(/\u00A0/g, " "); // non-breaking space -> обычный пробел
+        .replace(/[▌▍▎▏■□▪▫●◦◆◇▶▷►▻◀◁◄◅★☆✦✧✱✳︎✴︎☰☷☵☳☲☱]/g, "")
+        .replace(/\uFFFC/g, "")
+        .replace(/\u200B/g, "")
+        .replace(/\u2060/g, "")
+        .replace(/\u00A0/g, " ");
     }
 
     function cleanAnswerText(raw){
       let t = cleanOddSymbols(raw);
-
-      // Убираем строки вида "Ответы на вопросы 16"
       t = t.replace(/^\s*Ответы на вопросы\s+\d+\s*$/gmi, "");
-
-      // Убираем случайно попавшую строку "Второй уровень — углубление"
-      t = t.replace(/^\s*Второй уровень\s*—\s*углубление\s*$/gmi, "");
-
-      // Схлопываем лишние пустые строки
+      t = t.replace(/^\s*(Первый уровень — один ответ|Вопросы с двумя уровнями ответа|Первый уровень — два уровня ответа|Второй уровень — углубление)\s*$/gmi, "");
+      t = t.replace(/^\s*(Что это за система и можно ли ей доверять|Безопасность, границы и когда становится хуже|Как это устроено на практике|Что это даёт и чего не стоит ожидать|Необычный опыт, инсайты и рациональный взгляд|Для профессионалов и тех, кто уже многое пробовал)\s*$/gmi, "");
       t = t.replace(/\n{3,}/g, "\n\n");
-
       return t.trim();
     }
 
     function escapeHtml(s){
-      return String(s)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;");
+      return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
     }
 
-    function applyFocusHighlights(plainText){
-      // Визуальные якоря без изменения слов: подсветим только очевидные маркеры.
-      // 1) "Первое/Второе/..." в тексте (не только в начале) — если встречается как отдельное слово
-      // 2) Пары "важно", "главный принцип", "первое —", "второе —" и т.п. не меняя смысл
+    function applyHighlights(plainText){
       let s = escapeHtml(plainText);
-
-      const patterns = [
-        /\bПервое\b/g,
-        /\bВторое\b/g,
-        /\bТретье\b/g,
-        /\bЧетвёртое\b/g,
-        /\bВажно\b/g,
-        /\bГлавный принцип\b/g,
-        /\bКлючевые принципы\b/g
+      const phrases = [
+        "но", "поэтому", "важно", "ключевой", "главный",
+        "не", "не обещает", "не заменяет", "не обязан",
+        "право", "границы", "безопасность", "ответственность", "опора", "ясность"
       ];
-
-      for(const p of patterns){
-        s = s.replace(p, (m) => `<mark>${m}</mark>`);
+      for(const ph of phrases){
+        const safe = ph.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        const isWord = !ph.includes(" ");
+        const re = isWord ? new RegExp(`\\b${safe}\\b`, "gi") : new RegExp(`${safe}`, "gi");
+        s = s.replace(re, (m) => `<mark>${m}</mark>`);
       }
-
       return s;
     }
 
     function renderAnswer(container, rawText){
       const text = cleanAnswerText(rawText);
       container.innerHTML = "";
-      if(!text){
-        return;
-      }
+      if(!text) return;
 
       const blocks = text.split(/\n\s*\n/).map(x => x.trim()).filter(Boolean);
 
@@ -511,19 +490,23 @@
           continue;
         }
 
-        // обычный абзац (склеиваем переносы строк внутри блока)
         const pText = lines.join(" ");
-
         const p = document.createElement("p");
-        // Локальная подсветка (mark) — визуально, без изменения слов
-        p.innerHTML = applyFocusHighlights(pText);
+        p.innerHTML = applyHighlights(pText);
         container.appendChild(p);
       }
     }
 
-    function makeQA(item){
+    function chevron(){
+      const span = document.createElement("span");
+      span.className = "chev";
+      span.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+      return span;
+    }
+
+    function makeQA(item, isLevel2=false){
       const d = document.createElement("details");
-      d.className = "qa";
+      d.className = "qa" + (isLevel2 ? " level2-qa" : "");
 
       const s = document.createElement("summary");
       s.appendChild(document.createTextNode(cleanOddSymbols(item.question)));
@@ -538,72 +521,61 @@
       renderAnswer(ans, item.answer_main || "");
       body.appendChild(ans);
 
+      const hasMore = item.answer_more && String(item.answer_more).trim().length > 0;
+      if(hasMore && !isLevel2){
+        const moreWrap = document.createElement("div");
+        moreWrap.className = "more-wrap";
+
+        const more = document.createElement("details");
+        more.className = "more";
+
+        const ms = document.createElement("summary");
+        ms.appendChild(document.createTextNode(" "));
+        more.appendChild(ms);
+
+        const mb = document.createElement("div");
+        mb.className = "more-body";
+        renderAnswer(mb, item.answer_more || "");
+        more.appendChild(mb);
+
+        moreWrap.appendChild(more);
+        body.appendChild(moreWrap);
+
+        // UNLOCK второго уровня
+        more.addEventListener("toggle", () => {
+          if(more.open && !level2Unlocked){
+            level2Unlocked = true;
+            level2Block.classList.remove("hidden");
+          }
+        });
+      }
+
       d.appendChild(body);
-      return { d, body };
+      return d;
     }
 
     function renderSection(sectionTitle){
+      currentSection = sectionTitle;
+      level2Unlocked = false;
+
       panelTitle.textContent = sectionTitle;
       panelSub.textContent = sectionIntro(sectionTitle);
+
+      level1Title.textContent = "Вопросы первого уровня";
       level1List.innerHTML = "";
+      level2List.innerHTML = "";
+      level2Block.classList.add("hidden");
 
       const data = normalizeData().filter(x => x.category === sectionTitle);
-
-      const l1_one = data.filter(x => x.g === "L1_ONE").sort(sortByQno);
-      const l1_two = data.filter(x => x.g === "L1_TWO").sort(sortByQno);
+      const l1 = data.filter(x => x.g === "L1_ONE" || x.g === "L1_TWO").sort(sortByQno);
       const l2 = data.filter(x => x.g === "L2").sort(sortByQno);
 
-      const allL1 = [...l1_one, ...l1_two].sort(sortByQno);
+      for(const item of l1){
+        level1List.appendChild(makeQA(item, false));
+      }
 
-      for(const item of allL1){
-        const { d, body } = makeQA(item);
-
-        const hasMore = item.answer_more && String(item.answer_more).trim().length > 0;
-
-        if(hasMore){
-          const moreWrap = document.createElement("div");
-          moreWrap.className = "more-wrap";
-
-          const more = document.createElement("details");
-          more.className = "more";
-
-          const ms = document.createElement("summary");
-          ms.appendChild(document.createTextNode(" "));
-          more.appendChild(ms);
-
-          const mb = document.createElement("div");
-          mb.className = "more-body";
-          renderAnswer(mb, item.answer_more || "");
-          more.appendChild(mb);
-
-          moreWrap.appendChild(more);
-          body.appendChild(moreWrap);
-
-          const level2Wrap = document.createElement("div");
-          level2Wrap.className = "level2 is-hidden";
-
-          const h4 = document.createElement("h4");
-          h4.textContent = "Вопросы для углубления";
-          level2Wrap.appendChild(h4);
-
-          for(const q of l2){
-            const qNode = makeQA(q).d;
-            level2Wrap.appendChild(qNode);
-          }
-
-          body.appendChild(level2Wrap);
-
-          // УБРАЛИ автоскролл: просто показываем/скрываем второй уровень.
-          more.addEventListener("toggle", () => {
-            if(more.open){
-              level2Wrap.classList.remove("is-hidden");
-            } else {
-              level2Wrap.classList.add("is-hidden");
-            }
-          });
-        }
-
-        level1List.appendChild(d);
+      for(const item of l2){
+        level2List.appendChild(makeQA(item, true));
       }
     }
 
@@ -616,7 +588,9 @@
         btn.className = "tab";
         btn.setAttribute("role", "tab");
         btn.setAttribute("aria-selected", "false");
-        btn.textContent = title;
+
+        // микроиконка + краткий смысл
+        btn.innerHTML = `▸ ${title}<span class="mini">${sectionIntro(title)}</span>`;
 
         btn.addEventListener("click", () => {
           for(const b of tabs.querySelectorAll(".tab")){
@@ -624,16 +598,9 @@
           }
           btn.setAttribute("aria-selected", "true");
           renderSection(title);
-          window.scrollTo({ top: 0, behavior: "smooth" });
         });
 
         tabs.appendChild(btn);
-      }
-
-      const first = tabs.querySelector(".tab");
-      if(first){
-        first.setAttribute("aria-selected", "true");
-        renderSection(first.textContent);
       }
     }
 
