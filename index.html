@@ -19,7 +19,7 @@
       --navy-2:#0b2a52;
 
       --gold:#b68b2a;
-      --gold-weak: rgba(182,139,42,0.14);
+      --gold-weak: rgba(182,139,42,0.12);
       --gold-border: rgba(182,139,42,0.45);
 
       --text:#0b1220;
@@ -48,18 +48,21 @@
       line-height: 1.65;
     }
 
-    /* Герой с “звёздами” через CSS, без картинок */
+    /* Герой: более «резкий» и контрастный, без мутной дымки */
     .hero{
       color:#fff;
       padding: 34px 16px 22px;
       background:
-        radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,0.35) 0 1px, transparent 2px),
-        radial-gradient(1px 1px at 28% 42%, rgba(255,255,255,0.25) 0 1px, transparent 2px),
-        radial-gradient(1px 1px at 74% 28%, rgba(255,255,255,0.30) 0 1px, transparent 2px),
-        radial-gradient(1px 1px at 86% 58%, rgba(255,255,255,0.22) 0 1px, transparent 2px),
-        radial-gradient(1px 1px at 44% 70%, rgba(255,255,255,0.18) 0 1px, transparent 2px),
-        radial-gradient(900px 520px at 22% 18%, rgba(255,255,255,0.08), transparent 58%),
-        radial-gradient(760px 520px at 78% 12%, rgba(182,139,42,0.16), transparent 60%),
+        /* мелкие звёзды (чёткие точки) */
+        radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,0.40) 0 1px, transparent 2px),
+        radial-gradient(1px 1px at 28% 42%, rgba(255,255,255,0.30) 0 1px, transparent 2px),
+        radial-gradient(1px 1px at 74% 28%, rgba(255,255,255,0.34) 0 1px, transparent 2px),
+        radial-gradient(1px 1px at 86% 58%, rgba(255,255,255,0.26) 0 1px, transparent 2px),
+        radial-gradient(1px 1px at 44% 70%, rgba(255,255,255,0.22) 0 1px, transparent 2px),
+        radial-gradient(1px 1px at 62% 16%, rgba(255,255,255,0.18) 0 1px, transparent 2px),
+        /* очень лёгкое золото, без больших «пятен» */
+        radial-gradient(520px 320px at 78% 14%, rgba(182,139,42,0.10), transparent 60%),
+        /* основной градиент */
         linear-gradient(180deg, var(--navy-1), var(--navy-2));
     }
 
@@ -75,13 +78,15 @@
       font-weight: var(--w700);
       line-height: 1.12;
       letter-spacing: 0.2px;
+      text-shadow: 0 2px 18px rgba(0,0,0,0.28); /* повышает читабельность без «мутности» */
     }
 
     .hero p{
       margin: 12px 0 0;
       max-width: 920px;
-      color: rgba(255,255,255,0.88);
+      color: rgba(255,255,255,0.90);
       font-size: 16px;
+      text-shadow: 0 2px 14px rgba(0,0,0,0.22);
     }
 
     .content{
@@ -122,7 +127,7 @@
 
     .tab[aria-selected="true"]{
       background: rgba(182,139,42,0.10);
-      border-color: rgba(182,139,42,0.70);
+      border-color: rgba(182,139,42,0.72);
     }
 
     .tab-title{
@@ -154,6 +159,7 @@
       background: var(--surface);
       box-shadow: var(--shadow);
       overflow: hidden;
+      scroll-margin-top: 92px; /* ключ для мягкой прокрутки без ручных оффсетов */
     }
 
     .panel-head{
@@ -292,7 +298,6 @@
 
     .hidden{ display:none; }
 
-    /* Нижний блок — без наставлений, спокойно */
     .note{
       margin-top: 20px;
       padding: 18px 18px;
@@ -311,7 +316,7 @@
   <header class="hero">
     <div class="wrap">
       <h1>Ответы на часто задаваемые вопросы</h1>
-      <p>Эти вопросы обычно появляются у людей, которые знакомятся с Энергетическим Тэттрингом и проверяют, «как всё устроено»: что является ядром, где границы, как устроена безопасность и что ожидать от практики.</p>
+      <p>Эти вопросы обычно появляются у людей, которые знакомятся с Энергетическим Тэттрингом и проверяют, как всё устроено: что является ядром, где границы, как устроена безопасность и что ожидать от практики.</p>
     </div>
   </header>
 
@@ -396,7 +401,6 @@
     }
 
     function normalizeAnswerText(t){
-      // Данные уже почищены (v3), здесь только безопасная нормализация переносов
       return String(t || "").trim().replace(/\n{3,}/g, "\n\n");
     }
 
@@ -508,6 +512,16 @@
       }
     }
 
+    function smoothScrollToPanel(){
+      const panel = document.querySelector(".panel");
+      if(!panel) return;
+
+      // Мягче на iOS: даём браузеру 1 кадр на отрисовку
+      requestAnimationFrame(() => {
+        panel.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
+
     function renderTabs(){
       tabs.innerHTML = "";
 
@@ -523,22 +537,12 @@
           <div class="tab-sub">${sectionIntro(title)}</div>
         `;
 
-btn.addEventListener("click", () => {
-  document.querySelectorAll(".tab").forEach(b => b.setAttribute("aria-selected","false"));
-  btn.setAttribute("aria-selected","true");
-
-  renderSection(title);
-
-  // Мягкая прокрутка к панели вопросов
-  const panel = document.querySelector(".panel");
-  if (panel) {
-    const offset = panel.getBoundingClientRect().top + window.scrollY - 100;
-    window.scrollTo({
-      top: offset,
-      behavior: "smooth"
-    });
-  }
-});
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".tab").forEach(b => b.setAttribute("aria-selected","false"));
+          btn.setAttribute("aria-selected","true");
+          renderSection(title);
+          smoothScrollToPanel();
+        });
 
         tabs.appendChild(btn);
       }
