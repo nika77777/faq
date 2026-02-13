@@ -4,12 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ответы на вопросы — Энергетический Тэттринг</title>
-  <meta name="description" content="Часто задаваемые вопросы об Энергетическом Тэттрингe. Выберите раздел, откройте вопрос первого уровня, при необходимости раскройте «Подробнее» — и получите доступ к углубляющим вопросам раздела." />
 
   <style>
     :root{
-      color-scheme: light;
-
       --base: 17px;
       --h1: 32px;
       --h2: 28px;
@@ -34,21 +31,17 @@
       --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
     }
 
-    *{ box-sizing: border-box; }
-
     body{
       margin:0;
       font-family: var(--font);
       font-size: var(--base);
       color: var(--text);
       background: var(--bg);
-      line-height: 1.6;
+      line-height: 1.65;
     }
 
     .hero{
-      background: radial-gradient(1200px 600px at 20% 20%, rgba(255,255,255,0.08), transparent 55%),
-                  radial-gradient(800px 500px at 80% 10%, rgba(182,139,42,0.18), transparent 55%),
-                  linear-gradient(180deg, var(--navy-1), var(--navy-2));
+      background: linear-gradient(180deg, var(--navy-1), var(--navy-2));
       color:#fff;
       padding: 34px 16px 22px;
     }
@@ -63,26 +56,25 @@
       margin:0;
       font-size: var(--h1);
       font-weight: var(--w700);
-      line-height: 1.1;
-      letter-spacing: 0.2px;
     }
 
     .hero p{
       margin: 12px 0 0;
-      max-width: 920px;
+      max-width: 900px;
       color: rgba(255,255,255,0.88);
     }
 
     .content{
-      padding: 18px 16px 56px;
+      padding: 24px 16px 60px;
     }
 
-    /* Сетка табов-карточек */
+    /* --- Разделы-карточки --- */
+
     .tabs{
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-      margin: 0 0 14px;
+      gap: 12px;
+      margin-bottom: 18px;
     }
 
     @media (max-width: 720px){
@@ -90,40 +82,25 @@
     }
 
     .tab{
-      appearance:none;
-      border: 1px solid rgba(182,139,42,0.55);
+      border: 1px solid rgba(182,139,42,0.5);
       background: #fff;
-      color: var(--text);
-      padding: 14px 14px;
+      padding: 14px;
       border-radius: 14px;
       cursor: pointer;
       font-size: 15px;
       font-weight: var(--w700);
-      line-height: 1.25;
       text-align: left;
-      box-shadow: 0 10px 20px rgba(2,6,23,0.06);
-      transition: background 120ms ease, transform 20ms ease, border-color 120ms ease, box-shadow 120ms ease;
+      transition: 0.15s ease;
     }
 
     .tab:hover{
       background: rgba(182,139,42,0.06);
-      box-shadow: 0 12px 24px rgba(2,6,23,0.10);
     }
-
-    .tab:active{ transform: translateY(1px); }
 
     .tab[aria-selected="true"]{
       background: var(--gold);
+      color:#fff;
       border-color: var(--gold);
-      color: #fff;
-    }
-
-    .tab .mini{
-      display:block;
-      font-weight: 500;
-      opacity: 0.85;
-      margin-top: 6px;
-      font-size: 13px;
     }
 
     .panel{
@@ -131,480 +108,292 @@
       border-radius: var(--r-lg);
       background: var(--surface);
       box-shadow: var(--shadow);
-      overflow: hidden;
     }
 
     .panel-head{
-      padding: 18px 18px 14px;
-      background: linear-gradient(180deg, #ffffff, #fbfbfc);
+      padding: 20px;
       border-bottom: 1px solid var(--border);
     }
 
     .panel-title{
-      margin: 0;
+      margin:0;
       font-size: var(--h2);
       font-weight: var(--w700);
-      line-height: 1.18;
     }
 
     .panel-sub{
-      margin: 10px 0 0;
+      margin:10px 0 0;
       color: var(--muted);
     }
 
     .block{
-      padding: 16px 18px 10px;
-    }
-
-    .block h3{
-      margin: 0 0 10px;
-      font-size: 16px;
-      font-weight: var(--w700);
-      color: #182235;
-      letter-spacing: 0.2px;
+      padding: 20px;
     }
 
     details.qa{
-      margin: 0 0 10px;
+      margin-bottom: 12px;
       border: 1px solid var(--border);
       border-radius: var(--r-md);
       background: #fff;
-      overflow: hidden;
     }
 
     details.qa summary{
-      list-style: none;
-      cursor: pointer;
-      padding: 14px 14px;
-      font-size: 18px;
+      list-style:none;
+      cursor:pointer;
+      padding:14px;
+      font-size:18px;
       font-weight: var(--w700);
-      line-height: 1.25;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      user-select: none;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
     }
 
     details.qa summary::-webkit-details-marker{ display:none; }
 
-    .chev{
-      width: 30px;
-      height: 30px;
-      border-radius: 999px;
-      display: grid;
-      place-items: center;
-      border: 1px solid var(--border);
-      background: var(--surface-2);
-      flex: 0 0 auto;
-    }
-
-    .chev svg{ transition: transform 160ms ease; }
-    details.qa[open] .chev svg{ transform: rotate(180deg); }
-
     .qa-body{
-      border-top: 1px solid var(--border);
-      padding: 18px 20px 20px;
+      border-top:1px solid var(--border);
+      padding:18px 20px;
     }
 
-    .answer, .more-body{
-      font-size: var(--base);
-      color: var(--text);
-      max-width: 760px;
-      line-height: 1.72;
+    .answer{
+      max-width:760px;
+      line-height:1.72;
     }
 
-    .answer p, .more-body p{ margin: 0 0 14px; }
-    .answer p:last-child, .more-body p:last-child{ margin-bottom: 0; }
-
-    .answer ul, .more-body ul{ margin: 12px 0 14px 22px; padding: 0; }
-    .answer li, .more-body li{ margin: 7px 0; }
-
-    .answer mark, .more-body mark{
-      background: rgba(182,139,42,0.18);
-      padding: 0 3px;
-      border-radius: 6px;
+    .answer p{
+      margin:0 0 16px;
     }
+
+    .answer ul{
+      margin:12px 0 16px 22px;
+    }
+
+    /* --- Подробнее --- */
 
     .more-wrap{
-      margin-top: 14px;
-      border: 1px dashed rgba(182,139,42,0.55);
-      border-radius: 14px;
-      background: rgba(182,139,42,0.06);
-      overflow: hidden;
-      padding-top: 6px;
+      margin-top:14px;
+      border:1px dashed rgba(182,139,42,0.55);
+      border-radius:14px;
+      background:rgba(182,139,42,0.06);
     }
 
     details.more summary{
-      cursor: pointer;
-      padding: 10px 12px 12px;
-      user-select: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
+      padding:10px 12px;
+      cursor:pointer;
     }
 
     details.more summary::-webkit-details-marker{ display:none; }
 
     details.more summary::before{
-      content: "Подробнее";
-      background: var(--gold);
-      color: #fff;
-      font-weight: var(--w700);
-      padding: 8px 12px;
-      border-radius: 12px;
-      display: inline-block;
+      content:"Подробнее";
+      background:var(--gold);
+      color:#fff;
+      padding:6px 12px;
+      border-radius:10px;
+      font-weight:600;
     }
 
-    .more-body{ padding: 0 12px 12px; }
+    .more-body{
+      padding:0 16px 16px;
+      max-width:760px;
+      line-height:1.72;
+    }
 
-    /* Второй уровень — отдельный блок в конце раздела */
+    /* --- Второй уровень --- */
+
     .level2-block{
-      margin: 16px 0 6px;
-      padding: 16px 16px 6px;
-      border-radius: 16px;
-      background: rgba(74, 108, 255, 0.07);
-      border: 1px solid rgba(74, 108, 255, 0.22);
+      margin-top:22px;
+      padding:18px;
+      border-radius:16px;
+      background: rgba(74,108,255,0.07);
+      border:1px solid rgba(74,108,255,0.25);
     }
 
     .level2-block h4{
-      margin: 0 0 10px;
-      font-size: 15px;
-      font-weight: var(--w700);
-      color: #182235;
-    }
-
-    details.qa.level2-qa{
-      background: rgba(255,255,255,0.96);
-      border-color: rgba(74, 108, 255, 0.24);
-    }
-
-    details.qa.level2-qa summary{
-      font-size: 16.5px;
+      margin:0 0 14px;
+      font-size:15px;
+      font-weight:var(--w700);
     }
 
     .hidden{ display:none; }
 
-    .note{
-      margin-top: 20px;
-      padding: 18px 18px;
-      border-radius: var(--r-lg);
-      border: 1px solid var(--border);
-      background: #fff;
-      box-shadow: var(--shadow);
-    }
-
-    .note h2{ margin: 0; font-size: 18px; font-weight: var(--w700); }
-    .note p{ margin: 10px 0 0; color: var(--muted); }
   </style>
 </head>
 
 <body>
-  <header class="hero">
-    <div class="wrap">
-      <h1>Ответы на вопросы</h1>
-      <p>Это вопросы, которые чаще всего возникают при знакомстве с Энергетическим Тэттрингом. Выберите раздел, откройте вопрос первого уровня, а затем при необходимости раскройте «Подробнее» — и вы получите доступ к углубляющим вопросам раздела.</p>
-    </div>
-  </header>
 
-  <main class="content">
-    <div class="wrap">
-      <div class="tabs" id="tabs" role="tablist" aria-label="Разделы"></div>
+<header class="hero">
+  <div class="wrap">
+    <h1>Ответы на вопросы</h1>
+    <p>Выберите раздел. Сначала открываются вопросы первого уровня. Углубляющие вопросы станут доступны после раскрытия любого «Подробнее».</p>
+  </div>
+</header>
 
-      <section class="panel" aria-live="polite">
-        <div class="panel-head">
-          <h2 class="panel-title" id="panelTitle">Выберите раздел</h2>
-          <p class="panel-sub" id="panelSub">После выбора раздела появятся вопросы первого уровня. Углубляющие вопросы станут доступны после открытия «Подробнее».</p>
+<main class="content">
+  <div class="wrap">
+
+    <div class="tabs" id="tabs"></div>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2 class="panel-title" id="panelTitle">Выберите раздел</h2>
+        <p class="panel-sub" id="panelSub"></p>
+      </div>
+
+      <div class="block">
+        <div id="level1List"></div>
+
+        <div id="level2Block" class="level2-block hidden">
+          <h4>Углубляющие вопросы раздела</h4>
+          <div id="level2List"></div>
         </div>
+      </div>
+    </section>
 
-        <div class="block">
-          <h3 id="level1Title">Вопросы</h3>
-          <div id="level1List"></div>
+  </div>
+</main>
 
-          <div id="level2Block" class="level2-block hidden">
-            <h4>Углубляющие вопросы раздела</h4>
-            <div id="level2List"></div>
-          </div>
-        </div>
-      </section>
+<script type="module">
+import { FAQ } from "./faq-data.js";
 
-      <section class="note">
-        <h2>Границы и безопасность</h2>
-        <p>Этот справочник не заменяет врача или психотерапию и не предназначен для кризисных ситуаций. Если вам плохо, тревожно, нестабильно, нарушается сон, нарастает страх или теряется контакт с реальностью, остановите любые практики и обратитесь за профессиональной помощью.</p>
-      </section>
-    </div>
-  </main>
+const SECTIONS = [
+  "Что это за система и можно ли ей доверять",
+  "Безопасность, границы и когда становится хуже",
+  "Как это устроено на практике",
+  "Что это даёт и чего не стоит ожидать",
+  "Необычный опыт, инсайты и рациональный взгляд",
+  "Для профессионалов и тех, кто уже многое пробовал"
+];
 
-  <script type="module">
-    "use strict";
-    import { FAQ } from "./faq-data.js";
+const panelTitle = document.getElementById("panelTitle");
+const panelSub = document.getElementById("panelSub");
+const tabs = document.getElementById("tabs");
+const level1List = document.getElementById("level1List");
+const level2Block = document.getElementById("level2Block");
+const level2List = document.getElementById("level2List");
 
-    const SECTIONS = [
-      "Что это за система и можно ли ей доверять",
-      "Безопасность, границы и когда становится хуже",
-      "Как это устроено на практике",
-      "Что это даёт и чего не стоит ожидать",
-      "Необычный опыт, инсайты и рациональный взгляд",
-      "Для профессионалов и тех, кто уже многое пробовал"
-    ];
+let level2Unlocked = false;
 
-    const panelTitle = document.getElementById("panelTitle");
-    const panelSub = document.getElementById("panelSub");
-    const tabs = document.getElementById("tabs");
-    const level1Title = document.getElementById("level1Title");
-    const level1List = document.getElementById("level1List");
-    const level2Block = document.getElementById("level2Block");
-    const level2List = document.getElementById("level2List");
+function parseQno(source_hint){
+  const m = String(source_hint || "").match(/вопрос:\s*(\d+)/i);
+  return m ? Number(m[1]) : null;
+}
 
-    let currentSection = null;
-    let level2Unlocked = false;
+function groupFor(category, qno){
+  const ranges = {
+    "Что это за система и можно ли ей доверять":[9,13],
+    "Безопасность, границы и когда становится хуже":[10,14],
+    "Как это устроено на практике":[8,11],
+    "Что это даёт и чего не стоит ожидать":[9,13],
+    "Необычный опыт, инсайты и рациональный взгляд":[8,12],
+    "Для профессионалов и тех, кто уже многое пробовал":[12,16]
+  };
+  if(!ranges[category]) return "L1";
+  const [a,b]=ranges[category];
+  if(qno>=a && qno<=b) return "L2";
+  return "L1";
+}
 
-    function sectionIntro(title){
-      const map = {
-        "Что это за система и можно ли ей доверять": "Про ядро, границы, доверие, деньги и прозрачность.",
-        "Безопасность, границы и когда становится хуже": "Про риски, перегруз, противопоказания и протоколы паузы.",
-        "Как это устроено на практике": "Про форматы участия, выборочность, данные и выход/возврат.",
-        "Что это даёт и чего не стоит ожидать": "Про ожидания, реальные изменения и критерии «это работает».",
-        "Необычный опыт, инсайты и рациональный взгляд": "Про инсайты, символический язык и трезвость без мистификации.",
-        "Для профессионалов и тех, кто уже многое пробовал": "Про этику, позиционирование, риски и интеграцию в практику."
-      };
-      return map[title] || "";
-    }
+function cleanText(t){
+  return String(t||"").trim();
+}
 
-    function parseQno(sourceHint){
-      const m = String(sourceHint || "").match(/вопрос:\s*(\d+)/i);
-      return m ? Number(m[1]) : null;
-    }
+function renderAnswer(container, text){
+  container.innerHTML="";
+  const cleaned = cleanText(text);
+  const blocks = cleaned.split(/\n\s*\n/);
+  blocks.forEach(block=>{
+    const p=document.createElement("p");
+    p.textContent=block.trim();
+    container.appendChild(p);
+  });
+}
 
-    function groupFor(category, qno){
-      const sec = category;
+function makeQA(item, isLevel2=false){
+  const d=document.createElement("details");
+  d.className="qa";
 
-      if (sec === "Что это за система и можно ли ей доверять") {
-        if (qno >= 1 && qno <= 3) return "L1_ONE";
-        if (qno >= 4 && qno <= 8) return "L1_TWO";
-        if (qno >= 9 && qno <= 13) return "L2";
+  const s=document.createElement("summary");
+  s.textContent=item.question;
+  d.appendChild(s);
+
+  const body=document.createElement("div");
+  body.className="qa-body";
+
+  const ans=document.createElement("div");
+  ans.className="answer";
+  renderAnswer(ans,item.answer_main);
+  body.appendChild(ans);
+
+  if(item.answer_more && !isLevel2){
+    const moreWrap=document.createElement("div");
+    moreWrap.className="more-wrap";
+
+    const more=document.createElement("details");
+    more.className="more";
+
+    const ms=document.createElement("summary");
+    more.appendChild(ms);
+
+    const mb=document.createElement("div");
+    mb.className="more-body";
+    renderAnswer(mb,item.answer_more);
+    more.appendChild(mb);
+
+    moreWrap.appendChild(more);
+    body.appendChild(moreWrap);
+
+    more.addEventListener("toggle",()=>{
+      if(more.open && !level2Unlocked){
+        level2Unlocked=true;
+        level2Block.classList.remove("hidden");
       }
+    });
+  }
 
-      if (sec === "Безопасность, границы и когда становится хуже") {
-        if (qno >= 1 && qno <= 3) return "L1_ONE";
-        if (qno >= 4 && qno <= 9) return "L1_TWO";
-        if (qno >= 10 && qno <= 14) return "L2";
-      }
+  d.appendChild(body);
+  return d;
+}
 
-      if (sec === "Как это устроено на практике") {
-        if (qno >= 1 && qno <= 5) return "L1_ONE";
-        if (qno >= 6 && qno <= 7) return "L1_TWO";
-        if (qno >= 8 && qno <= 11) return "L2";
-      }
+function renderSection(section){
+  level2Unlocked=false;
+  level2Block.classList.add("hidden");
+  level1List.innerHTML="";
+  level2List.innerHTML="";
 
-      if (sec === "Что это даёт и чего не стоит ожидать") {
-        if (qno >= 1 && qno <= 4) return "L1_ONE";
-        if (qno >= 5 && qno <= 8) return "L1_TWO";
-        if (qno >= 9 && qno <= 13) return "L2";
-      }
+  panelTitle.textContent=section;
 
-      if (sec === "Необычный опыт, инсайты и рациональный взгляд") {
-        if (qno >= 1 && qno <= 4) return "L1_ONE";
-        if (qno >= 5 && qno <= 7) return "L1_TWO";
-        if (qno >= 8 && qno <= 12) return "L2";
-      }
+  const data=FAQ.filter(x=>x.category===section)
+    .map(x=>({...x,qno:parseQno(x.source_hint)}));
 
-      if (sec === "Для профессионалов и тех, кто уже многое пробовал") {
-        if (qno >= 1 && qno <= 5) return "L1_ONE";
-        if (qno >= 6 && qno <= 11) return "L1_TWO";
-        if (qno >= 12 && qno <= 16) return "L2";
-      }
+  const l1=data.filter(x=>groupFor(section,x.qno)==="L1");
+  const l2=data.filter(x=>groupFor(section,x.qno)==="L2");
 
-      return "UNK";
-    }
+  l1.forEach(item=>{
+    level1List.appendChild(makeQA(item,false));
+  });
 
-    function normalizeData(){
-      return FAQ.map((x, idx) => {
-        const qno = parseQno(x.source_hint);
-        const g = groupFor(x.category, qno);
-        return { ...x, qno, g, order: idx + 1 };
-      });
-    }
+  l2.forEach(item=>{
+    level2List.appendChild(makeQA(item,true));
+  });
+}
 
-    function sortByQno(a,b){
-      return (a.qno ?? 1e9) - (b.qno ?? 1e9);
-    }
+function renderTabs(){
+  SECTIONS.forEach(title=>{
+    const btn=document.createElement("button");
+    btn.className="tab";
+    btn.textContent="▸ "+title;
+    btn.addEventListener("click",()=>{
+      document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-selected","false"));
+      btn.setAttribute("aria-selected","true");
+      renderSection(title);
+    });
+    tabs.appendChild(btn);
+  });
+}
 
-    function cleanOddSymbols(t){
-      return String(t || "")
-        .replace(/[▌▍▎▏■□▪▫●◦◆◇▶▷►▻◀◁◄◅★☆✦✧✱✳︎✴︎☰☷☵☳☲☱]/g, "")
-        .replace(/\uFFFC/g, "")
-        .replace(/\u200B/g, "")
-        .replace(/\u2060/g, "")
-        .replace(/\u00A0/g, " ");
-    }
+renderTabs();
+</script>
 
-    function cleanAnswerText(raw){
-      let t = cleanOddSymbols(raw);
-      t = t.replace(/^\s*Ответы на вопросы\s+\d+\s*$/gmi, "");
-      t = t.replace(/^\s*(Первый уровень — один ответ|Вопросы с двумя уровнями ответа|Первый уровень — два уровня ответа|Второй уровень — углубление)\s*$/gmi, "");
-      t = t.replace(/^\s*(Что это за система и можно ли ей доверять|Безопасность, границы и когда становится хуже|Как это устроено на практике|Что это даёт и чего не стоит ожидать|Необычный опыт, инсайты и рациональный взгляд|Для профессионалов и тех, кто уже многое пробовал)\s*$/gmi, "");
-      t = t.replace(/\n{3,}/g, "\n\n");
-      return t.trim();
-    }
-
-    function escapeHtml(s){
-      return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
-    }
-
-    function applyHighlights(plainText){
-      let s = escapeHtml(plainText);
-      const phrases = [
-        "но", "поэтому", "важно", "ключевой", "главный",
-        "не", "не обещает", "не заменяет", "не обязан",
-        "право", "границы", "безопасность", "ответственность", "опора", "ясность"
-      ];
-      for(const ph of phrases){
-        const safe = ph.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-        const isWord = !ph.includes(" ");
-        const re = isWord ? new RegExp(`\\b${safe}\\b`, "gi") : new RegExp(`${safe}`, "gi");
-        s = s.replace(re, (m) => `<mark>${m}</mark>`);
-      }
-      return s;
-    }
-
-    function renderAnswer(container, rawText){
-      const text = cleanAnswerText(rawText);
-      container.innerHTML = "";
-      if(!text) return;
-
-      const blocks = text.split(/\n\s*\n/).map(x => x.trim()).filter(Boolean);
-
-      for(const block of blocks){
-        const lines = block.split("\n").map(x => x.trim()).filter(Boolean);
-        const isList = lines.length >= 2 && lines.every(l => /^([—\-•])\s+/.test(l));
-
-        if(isList){
-          const ul = document.createElement("ul");
-          for(const l of lines){
-            const li = document.createElement("li");
-            li.textContent = l.replace(/^([—\-•])\s+/, "");
-            ul.appendChild(li);
-          }
-          container.appendChild(ul);
-          continue;
-        }
-
-        const pText = lines.join(" ");
-        const p = document.createElement("p");
-        p.innerHTML = applyHighlights(pText);
-        container.appendChild(p);
-      }
-    }
-
-    function chevron(){
-      const span = document.createElement("span");
-      span.className = "chev";
-      span.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-      return span;
-    }
-
-    function makeQA(item, isLevel2=false){
-      const d = document.createElement("details");
-      d.className = "qa" + (isLevel2 ? " level2-qa" : "");
-
-      const s = document.createElement("summary");
-      s.appendChild(document.createTextNode(cleanOddSymbols(item.question)));
-      s.appendChild(chevron());
-      d.appendChild(s);
-
-      const body = document.createElement("div");
-      body.className = "qa-body";
-
-      const ans = document.createElement("div");
-      ans.className = "answer";
-      renderAnswer(ans, item.answer_main || "");
-      body.appendChild(ans);
-
-      const hasMore = item.answer_more && String(item.answer_more).trim().length > 0;
-      if(hasMore && !isLevel2){
-        const moreWrap = document.createElement("div");
-        moreWrap.className = "more-wrap";
-
-        const more = document.createElement("details");
-        more.className = "more";
-
-        const ms = document.createElement("summary");
-        ms.appendChild(document.createTextNode(" "));
-        more.appendChild(ms);
-
-        const mb = document.createElement("div");
-        mb.className = "more-body";
-        renderAnswer(mb, item.answer_more || "");
-        more.appendChild(mb);
-
-        moreWrap.appendChild(more);
-        body.appendChild(moreWrap);
-
-        // UNLOCK второго уровня
-        more.addEventListener("toggle", () => {
-          if(more.open && !level2Unlocked){
-            level2Unlocked = true;
-            level2Block.classList.remove("hidden");
-          }
-        });
-      }
-
-      d.appendChild(body);
-      return d;
-    }
-
-    function renderSection(sectionTitle){
-      currentSection = sectionTitle;
-      level2Unlocked = false;
-
-      panelTitle.textContent = sectionTitle;
-      panelSub.textContent = sectionIntro(sectionTitle);
-
-      level1Title.textContent = "Вопросы первого уровня";
-      level1List.innerHTML = "";
-      level2List.innerHTML = "";
-      level2Block.classList.add("hidden");
-
-      const data = normalizeData().filter(x => x.category === sectionTitle);
-      const l1 = data.filter(x => x.g === "L1_ONE" || x.g === "L1_TWO").sort(sortByQno);
-      const l2 = data.filter(x => x.g === "L2").sort(sortByQno);
-
-      for(const item of l1){
-        level1List.appendChild(makeQA(item, false));
-      }
-
-      for(const item of l2){
-        level2List.appendChild(makeQA(item, true));
-      }
-    }
-
-    function renderTabs(){
-      tabs.innerHTML = "";
-
-      for(const title of SECTIONS){
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "tab";
-        btn.setAttribute("role", "tab");
-        btn.setAttribute("aria-selected", "false");
-
-        // микроиконка + краткий смысл
-        btn.innerHTML = `▸ ${title}<span class="mini">${sectionIntro(title)}</span>`;
-
-        btn.addEventListener("click", () => {
-          for(const b of tabs.querySelectorAll(".tab")){
-            b.setAttribute("aria-selected", "false");
-          }
-          btn.setAttribute("aria-selected", "true");
-          renderSection(title);
-        });
-
-        tabs.appendChild(btn);
-      }
-    }
-
-    renderTabs();
-  </script>
 </body>
 </html>
