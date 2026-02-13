@@ -523,11 +523,22 @@
           <div class="tab-sub">${sectionIntro(title)}</div>
         `;
 
-        btn.addEventListener("click", () => {
-          document.querySelectorAll(".tab").forEach(b => b.setAttribute("aria-selected","false"));
-          btn.setAttribute("aria-selected","true");
-          renderSection(title);
-        });
+btn.addEventListener("click", () => {
+  document.querySelectorAll(".tab").forEach(b => b.setAttribute("aria-selected","false"));
+  btn.setAttribute("aria-selected","true");
+
+  renderSection(title);
+
+  // Мягкая прокрутка к панели вопросов
+  const panel = document.querySelector(".panel");
+  if (panel) {
+    const offset = panel.getBoundingClientRect().top + window.scrollY - 100;
+    window.scrollTo({
+      top: offset,
+      behavior: "smooth"
+    });
+  }
+});
 
         tabs.appendChild(btn);
       }
